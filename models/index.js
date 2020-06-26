@@ -1,2 +1,7 @@
-exports.User = require('./User');
-exports.Recipe = require('./Recipe');
+const { User } = require('./User');
+const { Recipe } = require('./Recipe');
+
+module.exports = {
+  User,
+  Recipe,
+};
