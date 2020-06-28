@@ -8,7 +8,8 @@ const { typeDefs, resolvers } = require('./graphql-config');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 2020;
+const path = '/graphql';
+const PORT = process.env.PORT || 4120;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -19,12 +20,15 @@ const server = new ApolloServer({
 });
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('Database connection stablished'))
   .catch(console.error);
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, path });
 
 app.listen(PORT, () => {
-  console.log(`Server ready at http://localhost:${PORT}/${server.graphqlPath}`);
+  console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
 });
